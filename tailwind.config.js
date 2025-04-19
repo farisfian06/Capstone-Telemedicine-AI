@@ -12,7 +12,12 @@ export default {
         "2xl": "6rem",
       },
     },
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#002843",
+        secondary: "#ED8C22",
+      },
+    },
   },
   plugins: [],
 };
