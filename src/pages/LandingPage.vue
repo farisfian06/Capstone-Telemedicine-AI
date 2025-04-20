@@ -1,10 +1,17 @@
 <template>
   <div>
     <router-view></router-view>
-    <h1 class="text-center">Landing Page</h1>
+    <HeroSection />
+    <FiturSection />
+    <ArtikelSection />
+    <main></main>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import ArtikelSection from "../components/sections/LandingPage/ArtikelSection.vue";
+import FiturSection from "../components/sections/LandingPage/FiturSection.vue";
+import HeroSection from "../components/sections/LandingPage/HeroSection.vue";
+</script>
 
 <style lang="scss" scoped></style>

@@ -3,7 +3,7 @@
     <div class="container">
       <div class="flex justify-between items-center p-2 text-white h-20">
         <div class="flex h-full items-center gap-2">
-          <img src="/public/Logo.png" alt="" class="h-full object-contain" />
+          <img src="/Logo.png" alt="" class="h-full object-contain" />
           <router-link to="/">Telemedicine</router-link>
         </div>
         <ul class="flex gap-4">
