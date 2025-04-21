@@ -28,11 +28,11 @@
             >Konseling</router-link
           >
         </ul>
-        <button
+        <router-link
           class="px-5 py-1 bg-secondary rounded-full hover:bg-slate-50 hover:text-primary ease-in-out duration-300"
+          to="/login"
+          >Login</router-link
         >
-          <router-link to="/login">Login</router-link>
-        </button>
       </div>
     </div>
   </div>
