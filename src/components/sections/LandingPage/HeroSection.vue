@@ -28,6 +28,7 @@
           src="@/assets/images/LandingPage/Hero.png"
           alt=""
           class="w-[50%]"
+          draggable="false"
         />
       </div>
     </div>
