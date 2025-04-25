@@ -16,4 +16,18 @@
 <script setup>
 import sectionBg from "@/assets/images/LoginPage/Login Page.png";
 import LoginForm from "../components/LoginPage/LoginForm.vue";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+
+// Check if user is already logged in when component mounts
+onMounted(() => {
+  const token = localStorage.getItem("user_token");
+
+  // If token exists, redirect to home page
+  if (token) {
+    router.push("/");
+  }
+});
 </script>
