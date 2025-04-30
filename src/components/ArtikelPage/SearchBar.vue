@@ -10,7 +10,7 @@
       />
       <button
         type="submit"
-        class="absolute end-2.5 top-1/2 -translate-y-1/2 p-2 text-white bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-secondary rounded-lg"
+        class="absolute end-2.5 bottom-2.5 p-2 text-white bg-secondary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-secondary rounded-lg"
       >
         <svg
           class="w-4 h-4 text-white"
