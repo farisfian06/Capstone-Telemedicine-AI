@@ -6,6 +6,10 @@ import AritkelPage from "../pages/AritkelPage.vue";
 import LoginPage from "../pages/LoginPage.vue";
 import UnauthorizedUserPage from "../pages/UnauthorizedUserPage.vue";
 import NotFoundPage from "../pages/NotFoundPage.vue";
+import ArtikelPostPage from "../pages/ArtikelPostPage.vue";
+import ArtikelPostForm from "../components/ArtikelPostForm.vue";
+import LoginForm from "../components/LoginPage/LoginForm.vue";
+import DetailArtikelPage from "../pages/DetailArtikelPage.vue";
 
 const routes = [
   {
@@ -36,6 +40,32 @@ const routes = [
     meta: {
       requiresAuth: true,
       layout: "userLayout",
+    },
+  },
+  {
+    path: "/artikel/:id",
+    component: DetailArtikelPage,
+    meta: {
+      requiresAuth: true,
+      layout: "userLayout",
+    },
+  },
+  {
+    path: "/post-artikel",
+    component: ArtikelPostPage,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ["admin"],
+      layout: "adminLayout",
+    },
+  },
+  {
+    path: "/post-artikel/create",
+    component: ArtikelPostForm,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ["admin"],
+      layout: "adminLayout",
     },
   },
   {
