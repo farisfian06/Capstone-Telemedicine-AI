@@ -10,6 +10,7 @@ import ArtikelPostPage from "../pages/ArtikelPostPage.vue";
 import ArtikelPostForm from "../components/ArtikelPostForm.vue";
 import LoginForm from "../components/LoginPage/LoginForm.vue";
 import DetailArtikelPage from "../pages/DetailArtikelPage.vue";
+import RegistPage from "../pages/RegistPage.vue";
 
 const routes = [
   {
@@ -30,6 +31,13 @@ const routes = [
   {
     path: "/login",
     component: LoginPage,
+    meta: {
+      layout: "userLayout",
+    },
+  },
+  {
+    path: "/register",
+    component: RegistPage,
     meta: {
       layout: "userLayout",
     },
