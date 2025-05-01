@@ -1,7 +1,9 @@
 <template>
   <section class="bg-primary">
     <div class="container">
-      <div class="flex justify-center px-16 py-16 gap-5">
+      <div
+        class="flex flex-col sm:flex-row justify-center px-16 py-16 gap-16 sm:gap-5"
+      >
         <FiturCard
           v-for="(fitur, index) in features"
           :key="index"

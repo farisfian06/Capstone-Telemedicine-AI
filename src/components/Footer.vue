@@ -1,7 +1,7 @@
 <template>
   <div class="bg-primary py-10">
     <div class="container">
-      <div class="flex gap-4 justify-center">
+      <div class="flex flex-col md:flex-row gap-4 justify-center">
         <div class="flex items-center gap-4 w-full">
           <img src="/Logo.png" alt="" class="ml-auto" />
           <div class="text-white w-fit">

@@ -5,7 +5,7 @@
         >NIM</label
       >
       <input
-        v-model="formData.email"
+        v-model="formData.nim"
         type="text"
         id="NIM"
         class="bg-[#E8F0FE] text-gray-900 text-sm rounded-md focus:border-secondary block w-full p-2.5"
@@ -35,6 +35,13 @@
     <div v-if="error" class="mt-3 text-red-500 text-sm">
       {{ error }}
     </div>
+
+    <div class="flex w-full justify-center">
+      <p>
+        Belum Punya akun?
+        <router-link to="/register" class="text-secondary">Daftar</router-link>
+      </p>
+    </div>
   </form>
 </template>
 
@@ -43,7 +50,7 @@ import { ref, reactive } from "vue";
 import axios from "axios";
 
 const formData = reactive({
-  email: "",
+  nim: "",
   password: "",
 });
 
@@ -63,7 +70,7 @@ const handleLogin = async () => {
     // Store the user token in localStorage
     localStorage.setItem("user_token", response.data.user_token);
 
-    // You can also store other user data if needed
+    // // You can also store other user data if needed
     localStorage.setItem(
       "user_data",
       JSON.stringify({
@@ -71,9 +78,6 @@ const handleLogin = async () => {
         role: response.data.role,
       })
     );
-
-    // Redirect or perform actions after successful login
-    alert("Login successful!");
     // Example: redirect to dashboard
     window.location.href = "/";
   } catch (err) {

@@ -19,17 +19,15 @@
           :imgSrc="item.gambar_url"
           :imgAlt="item.judul"
           :title="item.judul"
-          :description="item.isi"
+          :description="item.subjudul"
           :articleId="item.id"
         />
       </div>
       <div v-if="articles.length > 0" class="flex justify-center mt-8">
         <button
           class="border-2 py-2 px-4 border-secondary text-secondary rounded-full hover:bg-secondary hover:text-white ease-in-out duration-300"
-          @click="loadMoreArticles"
-          :disabled="loading"
         >
-          {{ loading ? "Memuat..." : "Selanjutnya" }}
+          Selanjutnya
         </button>
       </div>
     </div>
@@ -47,11 +45,10 @@ import artikelimg from "@/assets/images/LandingPage/artikelImg.png";
 const articles = ref([]);
 const loading = ref(true);
 const error = ref(null);
-const currentPage = ref(1);
 const defaultImage = artikelimg;
 
 // Function to fetch articles from API
-const fetchArticles = async (page = 1) => {
+const fetchArticles = async () => {
   try {
     loading.value = true;
 
@@ -74,12 +71,6 @@ const fetchArticles = async (page = 1) => {
   } finally {
     loading.value = false;
   }
-};
-
-// Function to load more articles
-const loadMoreArticles = async () => {
-  currentPage.value++;
-  await fetchArticles(currentPage.value);
 };
 
 // Fetch articles when component is mounted
