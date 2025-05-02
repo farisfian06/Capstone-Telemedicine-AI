@@ -1,8 +1,12 @@
 <template>
   <header>
     <div class="container py-20">
-      <div class="flex w-full">
-        <div class="w-full flex flex-col justify-between">
+      <div
+        class="flex flex-col sm:flex-row w-full items-center sm:items-stretch gap-8 sm:gap-0"
+      >
+        <div
+          class="w-full flex flex-col justify-between order-2 space-y-8 sm:space-y-0"
+        >
           <h1 class="font-bold text-5xl text-primary">
             Layanan Konseling AI Untuk Mahasiswa FILKOM Aman, Cepat, dan Anonim
           </h1>
@@ -27,7 +31,7 @@
         <img
           src="@/assets/images/LandingPage/Hero.png"
           alt=""
-          class="w-[50%]"
+          class="w-[90%] sm:w-[50%] sm:order-2"
           draggable="false"
         />
       </div>

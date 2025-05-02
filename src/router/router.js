@@ -6,6 +6,16 @@ import AritkelPage from "../pages/AritkelPage.vue";
 import LoginPage from "../pages/LoginPage.vue";
 import UnauthorizedUserPage from "../pages/UnauthorizedUserPage.vue";
 import NotFoundPage from "../pages/NotFoundPage.vue";
+import ArtikelPostPage from "../pages/ArtikelPostPage.vue";
+import ArtikelPostForm from "../components/ArtikelPostForm.vue";
+import LoginForm from "../components/LoginPage/LoginForm.vue";
+import DetailArtikelPage from "../pages/DetailArtikelPage.vue";
+import RegistPage from "../pages/RegistPage.vue";
+import KonselingPage from "../pages/KonselingPage.vue";
+import PengajuanKonselingForm from "../components/KonselingPage/PengajuanKonselingForm.vue";
+import DashboardPage from "../pages/DashboardPage.vue";
+import PendataanKonselingPage from "../pages/PendataanKonselingPage.vue";
+import ChatbotPage from "../pages/ChatbotPage.vue";
 
 const routes = [
   {
@@ -17,7 +27,7 @@ const routes = [
   },
   {
     path: "/chatbot",
-    component: AboutPage,
+    component: ChatbotPage,
     meta: {
       requiresAuth: true,
       layout: "userLayout",
@@ -31,6 +41,13 @@ const routes = [
     },
   },
   {
+    path: "/register",
+    component: RegistPage,
+    meta: {
+      layout: "userLayout",
+    },
+  },
+  {
     path: "/artikel",
     component: AritkelPage,
     meta: {
@@ -39,16 +56,59 @@ const routes = [
     },
   },
   {
-    path: "/konseling",
-    component: AboutPage,
+    path: "/artikel/:id",
+    component: DetailArtikelPage,
     meta: {
       requiresAuth: true,
       layout: "userLayout",
     },
   },
   {
+    path: "/post-artikel",
+    component: ArtikelPostPage,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ["admin"],
+      layout: "adminLayout",
+    },
+  },
+  {
+    path: "/post-artikel/create",
+    component: ArtikelPostForm,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ["admin"],
+      layout: "adminLayout",
+    },
+  },
+  {
+    path: "/konseling",
+    component: KonselingPage,
+    meta: {
+      requiresAuth: true,
+      layout: "userLayout",
+    },
+  },
+  {
+    path: "/konseling/booking",
+    component: PengajuanKonselingForm,
+    meta: {
+      requiresAuth: true,
+      layout: "userLayout",
+    },
+  },
+  {
+    path: "/pendataan-konseling",
+    component: PendataanKonselingPage,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ["admin"],
+      layout: "adminLayout",
+    },
+  },
+  {
     path: "/dashboard",
-    component: AboutPage,
+    component: DashboardPage,
     meta: {
       requiresAuth: true,
       allowedRoles: ["admin"],
