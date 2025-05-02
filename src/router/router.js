@@ -11,6 +11,11 @@ import ArtikelPostForm from "../components/ArtikelPostForm.vue";
 import LoginForm from "../components/LoginPage/LoginForm.vue";
 import DetailArtikelPage from "../pages/DetailArtikelPage.vue";
 import RegistPage from "../pages/RegistPage.vue";
+import KonselingPage from "../pages/KonselingPage.vue";
+import PengajuanKonselingForm from "../components/KonselingPage/PengajuanKonselingForm.vue";
+import DashboardPage from "../pages/DashboardPage.vue";
+import PendataanKonselingPage from "../pages/PendataanKonselingPage.vue";
+import ChatbotPage from "../pages/ChatbotPage.vue";
 
 const routes = [
   {
@@ -22,7 +27,7 @@ const routes = [
   },
   {
     path: "/chatbot",
-    component: AboutPage,
+    component: ChatbotPage,
     meta: {
       requiresAuth: true,
       layout: "userLayout",
@@ -78,15 +83,32 @@ const routes = [
   },
   {
     path: "/konseling",
-    component: AboutPage,
+    component: KonselingPage,
     meta: {
       requiresAuth: true,
       layout: "userLayout",
     },
   },
   {
+    path: "/konseling/booking",
+    component: PengajuanKonselingForm,
+    meta: {
+      requiresAuth: true,
+      layout: "userLayout",
+    },
+  },
+  {
+    path: "/pendataan-konseling",
+    component: PendataanKonselingPage,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ["admin"],
+      layout: "adminLayout",
+    },
+  },
+  {
     path: "/dashboard",
-    component: AboutPage,
+    component: DashboardPage,
     meta: {
       requiresAuth: true,
       allowedRoles: ["admin"],
