@@ -28,8 +28,7 @@
         </svg>
       </div>
       <p class="text-gray-700 text-lg mb-6">
-        Sorry, you don't have permission to access this page. This area requires
-        higher privileges.
+        Sorry, you don't have permission to access this page.
       </p>
       <div class="space-y-3">
         <router-link
