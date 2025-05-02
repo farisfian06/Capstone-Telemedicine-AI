@@ -6,39 +6,20 @@
       >Tambah Artikel</router-link
     >
     <div class="overflow-x-auto sm:rounded-lg">
-      <table class="table-fixed w-full text-sm text-left text-gray-500">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-300">
-          <tr>
-            <th class="w-1/6 px-6 py-3">Judul artikel</th>
-            <th class="w-1/6 px-6 py-3">Subjudul</th>
-            <th class="w-3/6 px-6 py-3">Isi</th>
-            <th class="w-1/6 px-6 py-3">Aksi</th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-if="isLoading">
-            <tr v-for="n in 3" :key="n" class="animate-pulse bg-slate-200">
-              <td class="w-1/6 px-6 py-4">
-                <div class="h-4 bg-slate-300 rounded"></div>
-              </td>
-              <td class="w-1/6 px-6 py-4">
-                <div class="h-4 bg-slate-300 rounded"></div>
-              </td>
-              <td class="w-3/6 px-6 py-4">
-                <div class="h-4 bg-slate-300 rounded mb-2"></div>
-                <div class="h-4 bg-slate-300 rounded mb-2"></div>
-                <div class="h-4 bg-slate-300 rounded w-3/4"></div>
-              </td>
-              <td class="w-1/6 px-6 py-4">
-                <div
-                  class="h-8 w-16 bg-slate-300 rounded inline-block mr-2"
-                ></div>
-                <div class="h-8 w-16 bg-slate-300 rounded inline-block"></div>
-              </td>
+      <template v-if="isLoading">
+        <LoadingState />
+      </template>
+      <template v-else>
+        <table class="table-fixed w-full text-sm text-left text-gray-500">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-300">
+            <tr>
+              <th class="w-1/6 px-6 py-3">Judul artikel</th>
+              <th class="w-1/6 px-6 py-3">Subjudul</th>
+              <th class="w-3/6 px-6 py-3">Isi</th>
+              <th class="w-1/6 px-6 py-3">Aksi</th>
             </tr>
-          </template>
-
-          <template v-else>
+          </thead>
+          <tbody>
             <tr
               v-for="artikel in artikelList"
               :key="artikel.id"
@@ -71,9 +52,9 @@
                 Tidak ada artikel tersedia
               </td>
             </tr>
-          </template>
-        </tbody>
-      </table>
+          </tbody>
+        </table>
+      </template>
     </div>
   </div>
 </template>
@@ -82,6 +63,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import LoadingState from "../components/LoadingState.vue";
 
 const router = useRouter();
 const artikelList = ref([]);
