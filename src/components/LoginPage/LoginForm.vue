@@ -70,16 +70,18 @@ const handleLogin = async () => {
     // Store the user token in localStorage
     localStorage.setItem("user_token", response.data.user_token);
 
-    // // You can also store other user data if needed
     localStorage.setItem(
       "user_data",
       JSON.stringify({
-        email: response.data.email,
         role: response.data.role,
       })
     );
-    // Example: redirect to dashboard
-    window.location.href = "/";
+
+    if (response.data.role === "admin") {
+      window.location.href = "/dashboard";
+    } else {
+      window.location.href = "/";
+    }
   } catch (err) {
     error.value =
       err.response?.data?.message || "An error occurred during login";
