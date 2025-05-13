@@ -1,14 +1,15 @@
 <template>
   <router-view></router-view>
-  <section class="min-h-screen">
+  <section class="min-h-screen py-10">
     <div class="container">
-      <h1>Konseling Page</h1>
       <div class="px-4 py-8 w-full bg-slate-100 rounded-lg space-y-10">
         <router-link
           to="/konseling/booking"
-          class="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-slate-50 hover:text-secondary hover:border-secondary border-2 ease ease-in-out duration-300"
+          class="px-4 py-2 font-bold text-xl bg-secondary text-white rounded-lg hover:bg-slate-50 hover:text-secondary hover:border-secondary border-2 ease ease-in-out duration-300"
           >Booking Layanan konseling</router-link
         >
+
+        <h1 class="text-2xl font-bold">Riwayat Bimbingan Konseling</h1>
 
         <div v-if="loading" class="text-center py-10">
           <LoadingState />
