@@ -64,7 +64,9 @@
                 </span>
               </td>
               <td class="px-6 py-4">
-                <template v-if="booking.konselor_name">
+                <template
+                  v-if="booking.konselor_name || booking.status === 'rejected'"
+                >
                   {{ booking.konselor_name }}
                 </template>
                 <template v-else>
