@@ -16,16 +16,18 @@
             membantu, secara anonim dan rahasia.
           </p>
           <div class="flex gap-4 justify-between">
-            <button
+            <router-link
+              to="/chatbot"
               class="bg-secondary text-white py-2 px-8 text-lg rounded-full"
             >
               Mulai Chat Sekarang
-            </button>
-            <button
+            </router-link>
+            <router-link
+              to="/konseling"
               class="bg-primary text-white py-2 px-8 text-lg rounded-full"
             >
               Atur Jadwal Konseling
-            </button>
+            </router-link>
           </div>
         </div>
         <img
