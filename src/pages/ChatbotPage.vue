@@ -78,43 +78,21 @@
         </button>
       </div>
       <div
-        class="flex-1 overflow-y-auto p-4 mt-2 bg-white rounded-lg"
+        class="flex-1 flex-col flex space-y-4 overflow-y-auto p-4 mt-2 bg-white rounded-lg"
         ref="chatContainer"
       >
-        <div class="flex flex-col space-y-4">
+        <ChatBubble
+          v-for="(message, index) in messages"
+          :key="index"
+          :text="message.text"
+          :sender="message.sender"
+        />
+        <div v-if="isTyping" class="flex justify-start">
           <div
-            v-for="(message, index) in messages"
-            :key="index"
-            class="flex"
-            :class="message.sender === 'user' ? 'justify-end' : 'justify-start'"
+            class="max-w-[70%] rounded-2xl px-4 py-2 bg-gray-100 text-gray-800"
           >
-            <div
-              class="max-w-[70%] rounded-2xl px-4 py-2"
-              :class="
-                message.sender === 'user'
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 text-gray-800'
-              "
-            >
-              <div
-                v-if="message.text.includes('\\boxed{')"
-                v-html="formatResponse(message.text)"
-              ></div>
-              <template v-else>{{ message.text }}</template>
-            </div>
-          </div>
-          <div v-if="isTyping" class="flex justify-start">
-            <div
-              class="max-w-[70%] rounded-2xl px-4 py-2 bg-gray-100 text-gray-800"
-            >
-              <div class="flex items-center gap-2">
-                <span>Sedang mengetik</span>
-                <span class="flex gap-1">
-                  <span class="animate-bounce">.</span>
-                  <span class="animate-bounce delay-100">.</span>
-                  <span class="animate-bounce delay-200">.</span>
-                </span>
-              </div>
+            <div class="flex items-center gap-2">
+              <span>Sedang mengetik</span>
             </div>
           </div>
         </div>
@@ -129,12 +107,12 @@
             v-model="userInput"
             type="text"
             placeholder="Ketik pesan anda..."
-            class="w-full px-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="w-full px-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400"
             :disabled="isLoading"
           />
           <button
             type="submit"
-            class="absolute right-4 p-2 text-blue-500 hover:text-blue-600 disabled:opacity-50 transition-colors"
+            class="absolute right-4 p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 transition-colors"
             :disabled="isLoading"
           >
             <svg
@@ -161,6 +139,7 @@
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
 import axios from "axios";
+import ChatBubble from "../components/Chatbot/ChatBubble.vue";
 
 const messages = ref([
   {
@@ -176,15 +155,6 @@ const isAsideOpen = ref(true);
 
 const toggleAside = () => {
   isAsideOpen.value = !isAsideOpen.value;
-};
-
-const formatResponse = (text) => {
-  return text
-    .replace("\\boxed{", "")
-    .replace("}", "</div>")
-    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-    .replace(/\n\n/g, "<br><br>")
-    .replace(/\n/g, "<br>");
 };
 
 const sendMessage = async () => {
