@@ -19,55 +19,64 @@
           {{ error }}
         </div>
 
-        <div v-else class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="table-fixed w-full text-sm text-left text-gray-500">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
-              <tr>
-                <th scope="col" class="w-1/6 px-6 py-3">Tanggal</th>
-                <th scope="col" class="w-1/6 px-6 py-3">Waktu</th>
-                <th scope="col" class="w-1/6 px-6 py-3">Status</th>
-                <th scope="col" class="w-1/6 px-6 py-3">Konselor</th>
-                <th scope="col" class="w-2/6 px-6 py-3">Keterangan</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(data, index) in konselingData"
-                :key="index"
-                class="bg-white border-b border-gray-200 hover:bg-gray-50"
-              >
-                <th
-                  scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+        <div v-else class="w-full overflow-x-auto">
+          <div class="relative shadow-md sm:rounded-lg min-w-[800px]">
+            <table class="w-full text-sm text-left text-gray-500">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                  <th scope="col" class="w-1/6 px-6 py-3">Tanggal</th>
+                  <th scope="col" class="w-1/6 px-6 py-3">Waktu</th>
+                  <th scope="col" class="w-1/6 px-6 py-3">Status</th>
+                  <th scope="col" class="w-1/6 px-6 py-3">Konselor</th>
+                  <th scope="col" class="w-2/6 px-6 py-3">Keterangan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  v-for="(data, index) in konselingData"
+                  :key="index"
+                  class="bg-white border-b border-gray-200 hover:bg-gray-50"
                 >
-                  {{ formatDate(data.tanggal) }}
-                </th>
-                <td class="px-6 py-4">{{ data.waktu }}</td>
-                <td class="px-6 py-4">
-                  <span
-                    class="px-2 py-1 rounded"
-                    :class="{
-                      'bg-yellow-200 text-yellow-800':
-                        data.status === 'pending',
-                      'bg-green-200 text-green-800': data.status === 'approved',
-                      'bg-red-200 text-red-800': data.status === 'rejected',
-                    }"
+                  <th
+                    scope="row"
+                    class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                   >
-                    {{ data.status }}
-                  </span>
-                </td>
-                <td class="px-6 py-4">
-                  {{ data.konselor_nama || "-" }}
-                </td>
-                <td class="px-6 py-4">{{ data.keterangan || "-" }}</td>
-              </tr>
-              <tr v-if="konselingData.length === 0">
-                <td colspan="5" class="px-6 py-4 text-center">
-                  Tidak ada data konseling
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    {{ formatDate(data.tanggal) }}
+                  </th>
+                  <td class="px-6 py-4">{{ data.waktu }}</td>
+                  <td class="px-6 py-4">
+                    <span
+                      class="px-2 py-1 rounded"
+                      :class="{
+                        'bg-yellow-200 text-yellow-800':
+                          data.status === 'pending',
+                        'bg-green-200 text-green-800':
+                          data.status === 'approved',
+                        'bg-red-200 text-red-800': data.status === 'rejected',
+                      }"
+                    >
+                      {{ data.status }}
+                    </span>
+                    <span
+                      v-if="data.rejected_reason"
+                      class="block mt-2 text-sm italic text-gray-700 bg-red-50 px-2 py-1 rounded"
+                    >
+                      {{ data.rejected_reason }}
+                    </span>
+                  </td>
+                  <td class="px-6 py-4">
+                    {{ data.konselor_nama || "-" }}
+                  </td>
+                  <td class="px-6 py-4">{{ data.keterangan || "-" }}</td>
+                </tr>
+                <tr v-if="konselingData.length === 0">
+                  <td colspan="5" class="px-6 py-4 text-center">
+                    Tidak ada data konseling
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -101,7 +110,7 @@ const fetchKonselingData = async () => {
     });
 
     konselingData.value = response.data;
-
+    console.log(konselingData.value);
     loading.value = false;
   } catch (err) {
     console.error("Error fetching konseling data:", err);

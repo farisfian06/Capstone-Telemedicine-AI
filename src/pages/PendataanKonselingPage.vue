@@ -90,7 +90,7 @@
                     Setujui
                   </button>
                   <button
-                    @click="rejectBooking(booking.id)"
+                    @click="openRejectModal(booking.id)"
                     class="bg-red-400 hover:bg-red-500 px-4 py-2 w-full rounded-lg text-black disabled:opacity-50 disabled:cursor-not-allowed"
                     :disabled="booking.status !== 'pending'"
                   >
@@ -108,6 +108,35 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Reject Modal -->
+    <div
+      v-if="showRejectModal"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+    >
+      <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+        <h3 class="text-lg font-semibold mb-4">Alasan Penolakan</h3>
+        <textarea
+          v-model="rejectReason"
+          class="w-full h-32 p-2 border rounded-lg mb-4"
+          placeholder="Masukkan alasan penolakan..."
+        ></textarea>
+        <div class="flex justify-end gap-2">
+          <button
+            @click="closeRejectModal"
+            class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+          >
+            Batal
+          </button>
+          <button
+            @click="confirmReject"
+            class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+          >
+            Konfirmasi
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -123,6 +152,11 @@ const isLoading = ref(false);
 const error = ref(null);
 const selectedKonselors = reactive({});
 const token = localStorage.getItem("user_token");
+
+// Reject modal state
+const showRejectModal = ref(false);
+const rejectReason = ref("");
+const selectedBookingId = ref(null);
 
 onMounted(() => {
   fetchData();
@@ -221,12 +255,40 @@ async function validateBooking(bookingId) {
   }
 }
 
+function openRejectModal(bookingId) {
+  selectedBookingId.value = bookingId;
+  rejectReason.value = "";
+  showRejectModal.value = true;
+}
+
+function closeRejectModal() {
+  showRejectModal.value = false;
+  selectedBookingId.value = null;
+  rejectReason.value = "";
+}
+
+async function confirmReject() {
+  if (!rejectReason.value.trim()) {
+    alert("Silakan masukkan alasan penolakan");
+    return;
+  }
+
+  try {
+    await rejectBooking(selectedBookingId.value);
+    closeRejectModal();
+  } catch (err) {
+    console.error("Error rejecting booking:", err);
+    alert("Gagal menolak permintaan konseling");
+  }
+}
+
 async function rejectBooking(bookingId) {
   try {
     await axios.put(
       `http://127.0.0.1:8000/api/konseling/booking-konseling/${bookingId}/validate`,
       {
         status: "rejected",
+        reject_reason: rejectReason.value,
       },
       {
         headers: {
