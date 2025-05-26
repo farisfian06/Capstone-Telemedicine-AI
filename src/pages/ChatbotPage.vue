@@ -10,61 +10,27 @@
         class="h-full px-4 py-6 overflow-y-auto relative"
         :class="[isAsideOpen ? 'block' : 'hidden']"
       >
-        <ul class="space-y-4 text-start w-full">
-          <li class="w-full">
+        <div v-if="isLoading" class="flex justify-center items-center h-full">
+          <LoadingState />
+        </div>
+        <ul v-else class="space-y-4 text-start w-full">
+          <li
+            v-for="conversation in conversations"
+            :key="conversation.id"
+            class="w-full"
+          >
             <button
-              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1"
+              @click="setCurrentConversation(conversation.id)"
+              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1 w-full text-left"
             >
-              <span>Mengatasi Kecemasan</span>
-            </button>
-          </li>
-          <li class="w-full">
-            <button
-              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1"
-            >
-              <span>Tips Mengelola Stres</span>
-            </button>
-          </li>
-          <li class="w-full">
-            <button
-              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1"
-            >
-              <span>Self-Care Guide</span>
-            </button>
-          </li>
-          <li class="w-full">
-            <button
-              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1"
-            >
-              <span>Dukungan Sosial</span>
-            </button>
-          </li>
-          <li class="w-full">
-            <button
-              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1"
-            >
-              <span>Mengenal Anxiety Disorder</span>
-            </button>
-          </li>
-          <li class="w-full">
-            <button
-              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1"
-            >
-              <span>Cara Mengatasi Overthinking </span>
-            </button>
-          </li>
-          <li class="w-full">
-            <button
-              class="p-2 text-gray-900 rounded-lg hover:bg-gray-100 line-clamp-1"
-            >
-              <span>Tips Tidur Berkualitas</span>
+              <span>{{ conversation.title }}</span>
             </button>
           </li>
         </ul>
       </div>
     </aside>
 
-    <main class="p-4 flex-1 h-full flex flex-col">
+    <main class="p-2 flex-1 h-full flex flex-col">
       <div class="space-x-2">
         <button
           @click="toggleAside"
@@ -77,120 +43,37 @@
           <span>New Chat</span>
         </button>
       </div>
-      <div
-        class="flex-1 flex-col flex space-y-4 overflow-y-auto p-4 mt-2 bg-white rounded-lg"
-        ref="chatContainer"
-      >
-        <ChatBubble
-          v-for="(message, index) in messages"
-          :key="index"
-          :text="message.text"
-          :sender="message.sender"
-        />
-        <div v-if="isTyping" class="flex justify-start">
-          <div
-            class="max-w-[70%] rounded-2xl px-4 py-2 bg-gray-100 text-gray-800"
-          >
-            <div class="flex items-center gap-2">
-              <span>Sedang mengetik</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="bg-white border-t">
-        <form
-          @submit.prevent="sendMessage"
-          class="relative flex items-center p-2"
-        >
-          <input
-            v-model="userInput"
-            type="text"
-            placeholder="Ketik pesan anda..."
-            class="w-full px-4 py-2 rounded-full bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-400"
-            :disabled="isLoading"
-          />
-          <button
-            type="submit"
-            class="absolute right-4 p-2 text-gray-400 hover:text-gray-600 disabled:opacity-50 transition-colors"
-            :disabled="isLoading"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="2"
-              stroke="currentColor"
-              class="w-5 h-5"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-              />
-            </svg>
-          </button>
-        </form>
-      </div>
+      <ChatContainer :conversationId="currentConversationId" />
     </main>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted } from "vue";
 import axios from "axios";
-import ChatBubble from "../components/Chatbot/ChatBubble.vue";
+import ChatContainer from "../components/Chatbot/ChatContainer.vue";
+import LoadingState from "../components/LoadingState.vue";
 
-const messages = ref([
-  {
-    text: "Halo! Saya adalah chatbot yang siap membantu anda. Apa yang bisa saya bantu?",
-    sender: "bot",
-  },
-]);
-const userInput = ref("");
-const chatContainer = ref(null);
-const isLoading = ref(false);
-const isTyping = ref(false);
 const isAsideOpen = ref(true);
+const conversations = ref([]);
+const isLoading = ref(false);
+const currentConversationId = ref(null);
 
 const toggleAside = () => {
   isAsideOpen.value = !isAsideOpen.value;
 };
 
-const sendMessage = async () => {
-  if (!userInput.value.trim() || isLoading.value) return;
+const setCurrentConversation = (id) => {
+  currentConversationId.value = id;
+  console.log(id);
+};
 
+const fetchConversations = async () => {
   isLoading.value = true;
-
-  // Add user message
-  const userMessage = {
-    text: userInput.value,
-    sender: "user",
-  };
-  messages.value.push(userMessage);
-
-  // Clear input
-  userInput.value = "";
-
-  // Show typing indicator
-  isTyping.value = true;
-
   try {
-    // Format messages for API
-    const formattedMessages = messages.value.map((msg) => ({
-      role: msg.sender === "bot" ? "assistant" : "user",
-      content: msg.text,
-    }));
-
-    // Get token from localStorage
     const token = localStorage.getItem("user_token");
-
-    // Make API request with headers
-    const response = await axios.post(
-      "http://127.0.0.1:8000/api/chatbot/",
-      {
-        messages: formattedMessages,
-      },
+    const { data } = await axios.get(
+      "http://127.0.0.1:8000/api/chatbot/conversations",
       {
         headers: {
           Accept: "application/json",
@@ -198,51 +81,19 @@ const sendMessage = async () => {
         },
       }
     );
-
-    console.log(response.data);
-    // Add bot response
-    if (response.data.choices && response.data.choices[0]) {
-      messages.value.push({
-        text: response.data.choices[0].message.content,
-        sender: "bot",
-      });
+    conversations.value = data.data;
+    // Set initial conversation ID to the first conversation if exists
+    if (conversations.value.length > 0) {
+      currentConversationId.value = conversations.value[0].id;
     }
   } catch (error) {
-    console.error("Error:", error);
-    messages.value.push({
-      text: "Maaf, terjadi kesalahan. Silakan coba lagi nanti.",
-      sender: "bot",
-    });
+    console.error("Error fetching conversations:", error);
   } finally {
     isLoading.value = false;
-    isTyping.value = false;
-    // Scroll to bottom after messages update
-    await nextTick();
-    chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
   }
 };
 
 onMounted(() => {
-  chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+  fetchConversations();
 });
 </script>
-
-<style scoped>
-.flex-1 {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
-}
-
-.flex-1::-webkit-scrollbar {
-  width: 6px;
-}
-
-.flex-1::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.flex-1::-webkit-scrollbar-thumb {
-  background-color: rgba(156, 163, 175, 0.5);
-  border-radius: 3px;
-}
-</style>

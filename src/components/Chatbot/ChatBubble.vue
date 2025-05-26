@@ -23,6 +23,7 @@ const props = defineProps({
 });
 
 const formatResponse = (text) => {
+  if (!text) return "";
   return text.replace(
     /\*\*(.*?)\*\*/g,
     "<strong class='font-bold'>$1</strong>"
