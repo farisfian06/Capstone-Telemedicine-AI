@@ -11,6 +11,12 @@
           : 'bg-gray-100 text-gray-800 '
       "
     >
+      <h5
+        v-if="sender === 'admin'"
+        class="inline-flex items-center rounded-md bg-secondary px-2 py-1 text-xs font-medium text-gray-50 ring-1 ring-inset ring-gray-500/10"
+      >
+        Admin
+      </h5>
       <div v-html="formatResponse(text)" class="whitespace-pre-line"></div>
     </div>
   </div>

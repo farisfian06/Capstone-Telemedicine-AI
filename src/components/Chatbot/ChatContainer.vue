@@ -19,7 +19,7 @@
           :text="message.text"
           :sender="message.sender"
         />
-        <div v-if="isTyping" class="flex justify-start">
+        <div v-if="isTyping && !isAdmin" class="flex justify-start">
           <div
             class="max-w-[70%] rounded-2xl px-4 py-2 bg-gray-100 text-gray-800"
           >
@@ -69,7 +69,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, watch } from "vue";
 import axios from "axios";
 import ChatBubble from "./ChatBubble.vue";
 
@@ -86,13 +86,14 @@ const chatContainer = ref(null);
 const isLoading = ref(false);
 const isTyping = ref(false);
 const isLoadingMessages = ref(false);
+const isAdmin = ref(false);
 
 const fetchMessages = async () => {
   isLoadingMessages.value = true;
   try {
     const token = localStorage.getItem("user_token");
     const response = await axios.get(
-      `http://127.0.0.1:8000/api/chatbot/conversations/4/messages`,
+      `http://127.0.0.1:8000/api/chatbot/conversations/${props.conversationId}/messages`,
       {
         headers: {
           Accept: "application/json",
@@ -119,7 +120,7 @@ const fetchMessages = async () => {
       },
     ];
   } finally {
-    console.log("Messages fetched:", messages.value); // Add this line for debugging purpose
+    console.log("Messages fetched:", messages.value);
     isLoadingMessages.value = false;
   }
 };
@@ -129,28 +130,38 @@ const sendMessage = async () => {
 
   isLoading.value = true;
 
+  // Get user role from localStorage
+  const userData = JSON.parse(localStorage.getItem("user_data") || "{}");
+  console.log("User data:", userData.role);
+  isAdmin.value = userData.role === "admin";
+
   const userMessage = {
     text: userInput.value,
-    sender: "user",
+    sender: isAdmin.value ? "assistant" : "user",
   };
   messages.value.push(userMessage);
 
   userInput.value = "";
-  isTyping.value = true;
+  if (!isAdmin.value) {
+    isTyping.value = true;
+  }
 
   try {
     const formattedMessages = messages.value.map((msg) => ({
-      role: msg.sender === "bot" ? "assistant" : "user",
+      role: msg.sender === "bot" ? "assistant" : msg.sender,
       content: msg.text,
     }));
 
     const token = localStorage.getItem("user_token");
+    const endpoint = isAdmin.value
+      ? "http://127.0.0.1:8000/api/chatbot/admin"
+      : "http://127.0.0.1:8000/api/chatbot/";
 
     const response = await axios.post(
-      "http://127.0.0.1:8000/api/chatbot/",
+      endpoint,
       {
         messages: formattedMessages,
-        conversation_id: 4,
+        conversation_id: props.conversationId,
       },
       {
         headers: {
@@ -180,6 +191,15 @@ const sendMessage = async () => {
     chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
   }
 };
+
+watch(
+  () => props.conversationId,
+  (newId) => {
+    if (newId) {
+      fetchMessages();
+    }
+  }
+);
 
 onMounted(async () => {
   await fetchMessages();
