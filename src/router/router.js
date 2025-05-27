@@ -16,6 +16,7 @@ import PengajuanKonselingForm from "../components/KonselingPage/PengajuanKonseli
 import DashboardPage from "../pages/DashboardPage.vue";
 import PendataanKonselingPage from "../pages/PendataanKonselingPage.vue";
 import ChatbotPage from "../pages/ChatbotPage.vue";
+import PendataanChatbot from "../pages/PendataanChatbot.vue";
 
 const routes = [
   {
@@ -100,6 +101,15 @@ const routes = [
   {
     path: "/pendataan-konseling",
     component: PendataanKonselingPage,
+    meta: {
+      requiresAuth: true,
+      allowedRoles: ["admin"],
+      layout: "adminLayout",
+    },
+  },
+  {
+    path: "/pendataan-chatbot",
+    component: PendataanChatbot,
     meta: {
       requiresAuth: true,
       allowedRoles: ["admin"],
