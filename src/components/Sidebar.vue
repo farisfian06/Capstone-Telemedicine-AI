@@ -79,9 +79,20 @@
             class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
           >
             <i
-              class="bi bi-chat-left-text-fill transition duration-75 text-gray-400 group-hover:text-white mr-1"
+              class="bi bi-person-lines-fill transition duration-75 text-gray-400 group-hover:text-white mr-1"
             ></i>
             <span class="ms-3">Konseling</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link
+            to="/pendataan-chatbot"
+            class="flex items-center p-2 rounded-lg text-white hover:bg-gray-700 group"
+          >
+            <i
+              class="bi bi-chat-left-text-fill transition duration-75 text-gray-400 group-hover:text-white mr-1"
+            ></i>
+            <span class="ms-3">Chatbot</span>
           </router-link>
         </li>
 

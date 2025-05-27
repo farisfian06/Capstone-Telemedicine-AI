@@ -25,9 +25,7 @@
               :key="artikel.id"
               class="bg-slate-100 border-b border-gray-200 hover:bg-gray-50"
             >
-              <td
-                class="w-1/6 px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-              >
+              <td class="w-1/6 px-6 py-4 font-medium text-gray-900">
                 {{ artikel.judul }}
               </td>
               <td class="w-1/6 px-6 py-4">{{ artikel.subjudul }}</td>
@@ -97,7 +95,7 @@ const hapusArtikel = async (id) => {
     try {
       const token = localStorage.getItem("user_token");
 
-      await axios.delete(`http://127.0.0.1:8000/api/article/${id}`, {
+      await axios.delete(`http://127.0.0.1:8000/api/article/destroy/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
           Accept: "application/json",

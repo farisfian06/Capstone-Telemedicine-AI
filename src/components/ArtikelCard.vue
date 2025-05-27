@@ -1,7 +1,7 @@
 <template>
   <router-link :to="`/artikel/${articleId}`">
     <div
-      class="w-full border-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"
+      class="w-full h-full border-2 rounded-lg shadow-md hover:shadow-lg transition-shadow"
     >
       <img
         :src="imgSrc"
